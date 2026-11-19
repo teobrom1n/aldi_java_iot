@@ -16,6 +16,12 @@ public class SensorService {
     this.sensorRepository = sensorRepository;
   }
 
+  /**
+   * Saves the sensor with a unique name
+   * @param sensor contains the data to save a sensor
+   * @return the saved Sensor
+   * @throws DuplicateKeyException when the sensor name already exists
+   * */
   @Transactional
   public Sensor saveSensor(SensorDto sensor) {
     if (sensorRepository.existsByName(sensor.name())) {

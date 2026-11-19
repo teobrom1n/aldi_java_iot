@@ -18,6 +18,11 @@ public class SensorReadingController {
     this.sensorReadingService = sensorReadingService;
   }
 
+  /**
+   * Saves the readings of the sensor
+   * @param sensorReadingDto contains all the vital details for the readings
+   * @return Sensor reading class
+   * */
   @PostMapping
   public SensorReading saveSensorReading(@RequestBody SensorReadingDto sensorReadingDto) {
     return sensorReadingService.saveSensorReading(sensorReadingDto);

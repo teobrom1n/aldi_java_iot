@@ -23,6 +23,12 @@ public class AlertService {
     this.kafkaTemplate = kafkaTemplate;
   }
 
+  /**
+   * Saves the alert and sends it to a kafka topic
+   * @param alertDto contains the data to save an alert
+   * @return Alert object
+   * @throws IllegalArgumentException when there is no sensor found
+   * */
   public Alert saveAlert(AlertDto alertDto) {
     Sensor sensor = sensorRepository.findById(alertDto.sensorId())
             .orElseThrow(() -> new IllegalArgumentException("Sensor not found"));
@@ -34,6 +40,12 @@ public class AlertService {
     return alert;
   }
 
+  /**
+   * Reads the database for the latest alert event
+   * @param sensorId the Sensor's id
+   * @return AlertDto of the latest event according to the sensor or null if there was no event or sensor
+   *
+   * */
   public AlertDto findLastAlertBySensorId(UUID sensorId) {
     Alert alert = alertRepository.findFirstBySensorIdOrderByTimestampDescIdDesc(sensorId);
     if (alert == null) {

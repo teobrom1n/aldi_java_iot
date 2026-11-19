@@ -20,6 +20,12 @@ public class AlertController {
     this.alertService = alertService;
   }
 
+
+  /**
+   * Endpoint to get the latest alert
+   * @param sensorId the reading sensor's id
+   * @return the latest AlertDto with HTTP 200, or HTTP 404 if no alert is found
+   * */
   @GetMapping("/latest")
   public ResponseEntity<AlertDto> getLastAlert(@RequestParam UUID sensorId) {
     AlertDto alertDto = alertService.findLastAlertBySensorId(sensorId);

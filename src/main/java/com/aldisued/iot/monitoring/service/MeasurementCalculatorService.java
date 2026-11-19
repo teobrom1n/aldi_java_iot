@@ -9,6 +9,14 @@ import org.springframework.stereotype.Service;
 @Service
 public class MeasurementCalculatorService {
 
+    /**
+     * Filters the incoming list according to the allowed deviation from the average
+     * Keeps values where abs(value - average) is at most abs(average) * deviation
+     * @param values the List which contains the reading values
+     * @param deviation the allowed deviation between 0.0 and 1.0, both included
+     * @return filtered values in their original order, or an empty list if none remain
+     * @throws IllegalArgumentException when deviation is null, NaN or outside the limits
+     * */
     public List<Double> filterByAverageDeviation(List<Double> values, Double deviation) {
         if (deviation == null || !(deviation >= 0.0 && deviation <= 1.0)) {
             throw new IllegalArgumentException("Deviation must be between 0.0 and 1.0");

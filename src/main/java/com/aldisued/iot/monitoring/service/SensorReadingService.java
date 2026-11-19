@@ -27,6 +27,13 @@ public class SensorReadingService {
         this.alertRepository = alertRepository;
     }
 
+    /**
+     * Saves the sensor reading and creates an alert only if it breaks the sensor's rule
+     * The alert uses the same sensor and timestamp as the reading
+     * @param sensorReadingDto contains the data to be saved
+     * @return the saved SensorReading
+     * @throws IllegalArgumentException when sensor is not found
+     * */
     @Transactional
     public SensorReading saveSensorReading(SensorReadingDto sensorReadingDto) {
 
@@ -43,6 +50,12 @@ public class SensorReadingService {
         return sensorReading;
     }
 
+    /**
+     * Gets the alert message when the reading breaks the sensor type's rule
+     * @param type is the SensorType
+     * @param value the measured value
+     * @return the alert message, or null if the reading is within the limits
+     * */
     private String getAlertMessage(SensorType type, double value) {
         String messageFormat = switch (type) {
             case TEMPERATURE -> value > 40.0 || value < -20.0
