@@ -22,6 +22,11 @@ public class SensorController {
     this.sensorService = sensorService;
   }
 
+  /**
+   * Endpoint to save a sensor
+   * @param sensorDto a validated DTO to save a sensor
+   * @return the saved Sensor with HTTP 200, or HTTP 409 if the name already exists
+   * */
   @PostMapping
   public ResponseEntity<Sensor> saveSensor(@Valid @RequestBody SensorDto sensorDto) {
     try {

@@ -18,11 +18,24 @@ public class MeasurementService {
         this.sensorReadingRepository = sensorReadingRepository;
     }
 
+    /**
+     * Gets the reading values according to the sensor type and time period
+     * @param sensorType the type of the sensors
+     * @param from the start of the period in UTC, included
+     * @param to the end of the period in UTC, included
+     * @return values ordered by timestamp, or an empty list if no readings are found
+     * */
     public List<Double> getMeasurementValuesBySensorType(SensorType sensorType, LocalDateTime from,
                                                          LocalDateTime to) {
         return sensorReadingRepository.findValuesBySensorType(sensorType, from, to);
     }
 
+    /**
+     * Gets the average temperature for the given time period
+     * @param from the start of the period in UTC, included
+     * @param to the end of the period in UTC, included
+     * @return the average temperature, or Optional.empty() if no readings are found
+     * */
     public Optional<Double> getAverageTemperature(LocalDateTime from, LocalDateTime to) {
         return sensorReadingRepository.findAverageValue(
                 SensorType.TEMPERATURE, from, to);
