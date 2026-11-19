@@ -3,7 +3,9 @@ package com.aldisued.iot.monitoring.service;
 import com.aldisued.iot.monitoring.dto.SensorDto;
 import com.aldisued.iot.monitoring.entity.Sensor;
 import com.aldisued.iot.monitoring.repository.SensorRepository;
+import org.springframework.dao.DuplicateKeyException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class SensorService {
@@ -14,10 +16,15 @@ public class SensorService {
     this.sensorRepository = sensorRepository;
   }
 
+  @Transactional
   public Sensor saveSensor(SensorDto sensor) {
+    if (sensorRepository.existsByName(sensor.name())) {
+      throw new DuplicateKeyException("Sensor name already exists");
+    }
+
     return sensorRepository.save(new Sensor(
-        sensor.name(),
-        sensor.type()
+            sensor.name(),
+            sensor.type()
     ));
   }
 }

@@ -3,6 +3,10 @@ package com.aldisued.iot.monitoring.controller;
 import com.aldisued.iot.monitoring.dto.SensorDto;
 import com.aldisued.iot.monitoring.entity.Sensor;
 import com.aldisued.iot.monitoring.service.SensorService;
+import jakarta.validation.Valid;
+import org.springframework.dao.DuplicateKeyException;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,7 +23,11 @@ public class SensorController {
   }
 
   @PostMapping
-  public Sensor saveSensor(@RequestBody SensorDto sensorDto) {
-    return sensorService.saveSensor(sensorDto);
+  public ResponseEntity<Sensor> saveSensor(@Valid @RequestBody SensorDto sensorDto) {
+    try {
+      return ResponseEntity.ok(sensorService.saveSensor(sensorDto));
+    } catch (DuplicateKeyException exception) {
+      return ResponseEntity.status(HttpStatus.CONFLICT).build();
+    }
   }
 }
