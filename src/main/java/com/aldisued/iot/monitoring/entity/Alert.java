@@ -34,7 +34,7 @@ public class Alert {
   ) {
     this.message = message;
     this.timestamp = timestamp;
-    //TODO: Task 2
+    this.sensor = sensor;
   }
 
   @ManyToOne
